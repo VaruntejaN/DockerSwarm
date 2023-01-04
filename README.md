@@ -91,4 +91,19 @@ Hit the URL (http://machine-ip) in the browser. You should be able to get a simp
 ## Scaling up
 We currently have 4 containers running. Let us scale it up to 8 by executing the command on the manager1 node.
 
+* docker service scale service_name=8
+
 ![scale](https://user-images.githubusercontent.com/91135247/210533710-af7bb2ec-db5f-44ce-899c-1dbcecb96921.png)
+
+## Draining a node
+If the node is ACTIVE, it is ready to accept tasks from the Manager.\
+Now, let us set the Availability to DRAIN so that Manager will stop tasks running on that node and launches the replicas on other nodes with ACTIVE availability.
+
+* docker node update --availability drain node_name
+
+![drain](https://user-images.githubusercontent.com/91135247/210537203-41f50730-fb8a-4fbf-94c3-d8018ce634dc.png)
+
+## Worker node goes down
+If any worker node goes down, then Manager launches the replicas running on that node on other nodes.
+
+![worker down](https://user-images.githubusercontent.com/91135247/210538444-d6044908-6605-4dd7-b01a-97791aef30b5.png)

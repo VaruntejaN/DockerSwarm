@@ -107,3 +107,51 @@ Now, let us set the Availability to DRAIN so that Manager will stop tasks runnin
 If any worker node goes down, then Manager launches the replicas running on that node on other nodes.
 
 ![worker down](https://user-images.githubusercontent.com/91135247/210538444-d6044908-6605-4dd7-b01a-97791aef30b5.png)
+
+## Promoting Worker to Manager
+Currently we have 4 nodes. Let's add 2 more worker nodes to our swarm.\
+We can promote workers to become Managers by using the command
+* docker node promote worker_node
+
+![promote worker](https://user-images.githubusercontent.com/91135247/210542912-431d8102-dbb2-4a7a-9cbe-b3d33264ddd2.png)
+
+We can see there are 3 managers where 1 is leader and other 2 are "reachable".
+
+## Manager node goes down
+
+To take advantage of swarm mode’s fault-tolerance features, Docker recommends you implement an odd number of nodes so that you can recover from the failure of a manager node without downtime.
+* A three-manager swarm tolerates a maximum loss of one manager.
+* A five-manager swarm tolerates a maximum simultaneous loss of two manager nodes.
+* An odd number N of manager nodes in the cluster tolerates the loss of at most 
+(N-1)/2 managers. Docker recommends a maximum of seven manager nodes for a swarm.
+
+We have a three-manager swarm, so if Manager1 node goes down, then any one of the remaining two managers become leader and starts handling the cluster.
+
+![manager down](https://user-images.githubusercontent.com/91135247/210760595-eb7ec9b6-114f-4852-b4d6-99fb47658c06.png)
+
+![checking status after manager went down](https://user-images.githubusercontent.com/91135247/210761010-e195e77b-8c48-44b5-ad6c-55baef1a62f0.png)
+
+NOTE: In a swarm cluster, more than 50% of the managers should be online to manage the cluster.
+
+In our case if two of the managers goes down simultaneously, then our swarm has less than 50% of the managers online, so we lose the control over the cluster and the cluster run into a disaster.
+
+![swarm disaster](https://user-images.githubusercontent.com/91135247/210764002-a009751c-939f-4e04-bc13-2e773b676485.png)
+
+## Restore from disaster
+SSH into the last active manager node and run the command:
+
+* docker swarm init --force-new-cluster
+
+![restore from disaster](https://user-images.githubusercontent.com/91135247/210774749-dc7695fa-f5f4-4878-b92d-be87083d6225.png)
+
+This re-initializes the cluster with last active manager as leader and starts handling the cluster.
+
+![new cluster](https://user-images.githubusercontent.com/91135247/210775015-44db9bf6-33f6-4014-810b-c91ea3057aa0.png) 
+
+## References
+
+https://docker-docs.netlify.app/machine/drivers/hyper-v/
+
+https://docker-docs.netlify.app/machine/drivers/hyper-v/#example
+
+https://rominirani.com/docker-swarm-tutorial-b67470cf8872

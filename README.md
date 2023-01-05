@@ -131,9 +131,9 @@ We have a three-manager swarm, so if Manager1 node goes down, then any one of th
 
 ![checking status after manager went down](https://user-images.githubusercontent.com/91135247/210761010-e195e77b-8c48-44b5-ad6c-55baef1a62f0.png)
 
-NOTE: In a swarm cluster, more than 50% of the managers should be online to manage the cluster.
+**NOTE: In a swarm cluster, more than 50% of the managers should be online to manage the cluster.**
 
-In our case if two of the managers goes down simultaneously, then our swarm has less than 50% of the managers online, so we lose the control over the cluster and the cluster run into a disaster.
+In our case if two of the managers goes down simultaneously, then our swarm has less than 50% of the managers online, so we lose the control over the cluster and the cluster runs into a disaster.
 
 ![swarm disaster](https://user-images.githubusercontent.com/91135247/210764002-a009751c-939f-4e04-bc13-2e773b676485.png)
 

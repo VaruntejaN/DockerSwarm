@@ -68,6 +68,7 @@ To do that, I am again in the SSH session for my manager1 node. And give the fol
 * docker service create --replicas 4 -p 3000:3000 --name service_name image_name
 
 ![service](https://user-images.githubusercontent.com/91135247/210529575-ef35a922-0013-44ad-a324-99115bde5903.png)
+
 Here I launched 4 replicas of a simple frontend application.
 
 You can find out the status of the service, by giving the following command:
